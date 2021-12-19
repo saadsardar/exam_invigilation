@@ -1,3 +1,4 @@
+import 'package:exam_invigilation/screens/upload_picture.dart';
 import 'package:flutter/material.dart';
 
 import 'home_page.dart';
@@ -11,6 +12,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController password = TextEditingController();
+  TextEditingController emailAddress = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -19,24 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
       height: height,
       child: Stack(
         children: <Widget>[
-          Positioned(
-            top: -MediaQuery.of(context).size.height * .15,
-            right: -MediaQuery.of(context).size.width * .4,
-            child: Container(
-              height: MediaQuery.of(context).size.height * .5,
-              width: MediaQuery.of(context).size.width,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xffE6E6E6),
-                    Color(0xff14279B),
-                  ],
-                ),
-              ),
-            ),
-          ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: SingleChildScrollView(
@@ -48,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   RichText(
                     textAlign: TextAlign.center,
                     text: const TextSpan(
-                        text: 'Wiz',
+                        text: 'Exam',
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w700,
@@ -56,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         children: [
                           TextSpan(
-                            text: 'pna',
+                            text: 'Invigilation',
                             style: TextStyle(color: Colors.black, fontSize: 30),
                           ),
                         ]),
@@ -68,21 +53,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const <Widget>[
-                            Text(
-                              "Username",
+                          children: <Widget>[
+                            const Text(
+                              "Email",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 15),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             TextField(
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    fillColor: Color(0xfff3f3f4),
-                                    filled: true))
+                              obscureText: false,
+                              controller: emailAddress,
+                              decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  fillColor: Color(0xfff3f3f4),
+                                  filled: true),
+                            ),
                           ],
                         ),
                       ),
@@ -90,21 +77,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const <Widget>[
-                            Text(
+                          children: <Widget>[
+                            const Text(
                               "Password",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 15),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             TextField(
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    fillColor: Color(0xfff3f3f4),
-                                    filled: true))
+                              obscureText: true,
+                              controller: password,
+                              decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  fillColor: Color(0xfff3f3f4),
+                                  filled: true),
+                            ),
                           ],
                         ),
                       )
@@ -115,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTap: () => Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
+                        builder: (context) => const UploadImage(),
                       ),
                     ),
                     child: Container(
@@ -158,9 +147,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   InkWell(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignUpScreen()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignUpScreen(),
+                        ),
+                      );
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 20),

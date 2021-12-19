@@ -1,3 +1,4 @@
+import 'package:exam_invigilation/screens/upload_picture.dart';
 import 'package:flutter/material.dart';
 
 import 'home_page.dart';
@@ -11,6 +12,12 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  // late String firstName, lastName, password, emailAddress;
+  TextEditingController firstName = TextEditingController();
+  TextEditingController lastName = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController emailAddress = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -19,24 +26,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         height: height,
         child: Stack(
           children: <Widget>[
-            Positioned(
-              top: -MediaQuery.of(context).size.height * .15,
-              right: -MediaQuery.of(context).size.width * .4,
-              child: Container(
-                height: MediaQuery.of(context).size.height * .5,
-                width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xffE6E6E6),
-                      Color(0xff14279B),
-                    ],
-                  ),
-                ),
-              ),
-            ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: SingleChildScrollView(
@@ -48,7 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     RichText(
                       textAlign: TextAlign.center,
                       text: const TextSpan(
-                        text: 'Wiz',
+                        text: 'Exam',
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w700,
@@ -56,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         children: [
                           TextSpan(
-                            text: 'pna',
+                            text: 'Invigilation',
                             style: TextStyle(color: Colors.black, fontSize: 30),
                           ),
                         ],
@@ -71,21 +60,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           margin: const EdgeInsets.symmetric(vertical: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const <Widget>[
-                              Text(
-                                "Username",
+                            children: <Widget>[
+                              const Text(
+                                "First Name",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 15),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               TextField(
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      fillColor: Color(0xfff3f3f4),
-                                      filled: true))
+                                obscureText: false,
+                                controller: firstName,
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    fillColor: Color(0xfff3f3f4),
+                                    filled: true),
+                              ),
                             ],
                           ),
                         ),
@@ -93,22 +84,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           margin: const EdgeInsets.symmetric(vertical: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const <Widget>[
-                              Text(
+                            children: <Widget>[
+                              const Text(
+                                "Last Name",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextField(
+                                obscureText: false,
+                                controller: lastName,
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    fillColor: Color(0xfff3f3f4),
+                                    filled: true),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              const Text(
                                 "Email address",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 15),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               TextField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      fillColor: Color(0xfff3f3f4),
-                                      filled: true))
+                                keyboardType: TextInputType.emailAddress,
+                                obscureText: false,
+                                controller: emailAddress,
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    fillColor: Color(0xfff3f3f4),
+                                    filled: true),
+                              ),
                             ],
                           ),
                         ),
@@ -116,34 +133,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           margin: const EdgeInsets.symmetric(vertical: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const <Widget>[
-                              Text(
+                            children: <Widget>[
+                              const Text(
                                 "Password",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 15),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               TextField(
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      fillColor: Color(0xfff3f3f4),
-                                      filled: true))
+                                obscureText: true,
+                                controller: password,
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    fillColor: Color(0xfff3f3f4),
+                                    filled: true),
+                              ),
                             ],
                           ),
                         )
                       ],
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     GestureDetector(
                       onTap: () => Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
+                          builder: (context) => const UploadImage(),
                         ),
                       ),
                       child: Container(
@@ -175,7 +194,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: height * .14),
+                    SizedBox(height: height * .03),
                     InkWell(
                       onTap: () {
                         Navigator.push(

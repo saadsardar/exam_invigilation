@@ -38,7 +38,7 @@ class WelcomeScreen extends StatelessWidget {
               RichText(
                 textAlign: TextAlign.center,
                 text: const TextSpan(
-                  text: 'Exam Invigilation',
+                  text: 'Exam',
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w700,
@@ -46,7 +46,7 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                   children: [
                     TextSpan(
-                      text: 'FYP',
+                      text: 'Invigilation',
                       style: TextStyle(color: Colors.black, fontSize: 30),
                     ),
                   ],
@@ -57,8 +57,10 @@ class WelcomeScreen extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const LoginScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()));
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
@@ -85,8 +87,12 @@ class WelcomeScreen extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const SignUpScreen()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SignUpScreen(),
+                    ),
+                  );
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
