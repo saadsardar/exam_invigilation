@@ -106,6 +106,27 @@ class _MyHomePageState extends State<UploadImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Upload Pictures',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {},
+            child: const Text(
+              "Upload",
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                _imageFileList == null ? Colors.blueAccent : Colors.green,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Center(
         child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
             ? FutureBuilder<void>(

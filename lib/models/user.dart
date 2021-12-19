@@ -6,7 +6,7 @@ class User {
   final String lastName;
   final String emailAddress;
   final DateTime createdDate;
-  final String userRole;
+  final String userToken;
 
   User(
     this.id,
@@ -14,7 +14,7 @@ class User {
     this.lastName,
     this.emailAddress,
     this.createdDate,
-    this.userRole,
+    this.userToken,
   );
   User.fromJson(Map<String, dynamic> json)
       : id = json['ID'],
@@ -22,7 +22,7 @@ class User {
         lastName = json['LastName'],
         emailAddress = json['EmailAddress'],
         createdDate = json['CreatedDate'],
-        userRole = json['UserRole'];
+        userToken = json['userToken'];
 }
 
 Future<void> registerUser(
