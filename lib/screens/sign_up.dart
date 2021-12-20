@@ -159,12 +159,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: 10,
                     ),
                     GestureDetector(
-                      onTap: () => Navigator.pushReplacement(
+                      onTap: ()  {Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const UploadImage(),
                         ),
-                      ),
+                      ),}
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         padding: const EdgeInsets.symmetric(vertical: 15),
@@ -200,7 +200,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const LoginScreen()));
+                                builder: (context) => const LoginScreen(),),);
                       },
                       child: Container(
                         margin: const EdgeInsets.symmetric(vertical: 20),
