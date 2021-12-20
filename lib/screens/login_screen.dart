@@ -1,7 +1,6 @@
+import 'package:exam_invigilation/models/user.dart';
 import 'package:exam_invigilation/screens/upload_picture.dart';
 import 'package:flutter/material.dart';
-
-import 'home_page.dart';
 import 'sign_up.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailAddress = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    User? user;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
         body: SizedBox(
@@ -33,18 +33,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   RichText(
                     textAlign: TextAlign.center,
                     text: const TextSpan(
-                        text: 'Exam',
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xff14279B),
+                      text: 'Exam',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xff14279B),
+                      ),
+                      children: [
+                        TextSpan(
+                          text: 'Invigilation',
+                          style: TextStyle(color: Colors.black, fontSize: 30),
                         ),
-                        children: [
-                          TextSpan(
-                            text: 'Invigilation',
-                            style: TextStyle(color: Colors.black, fontSize: 30),
-                          ),
-                        ]),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 50),
                   Column(
@@ -101,12 +102,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   GestureDetector(
-                    onTap: () => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const UploadImage(),
-                      ),
-                    ),
+                    onTap: () async {
+                      await user!.signIn(emailAddress.text, password.text);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const UploadImage(),
+                        ),
+                      );
+                    },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.symmetric(vertical: 15),

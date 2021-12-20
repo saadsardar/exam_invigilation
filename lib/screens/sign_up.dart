@@ -1,7 +1,6 @@
+import 'package:exam_invigilation/models/user.dart';
 import 'package:exam_invigilation/screens/upload_picture.dart';
 import 'package:flutter/material.dart';
-
-import 'home_page.dart';
 import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -20,6 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    User? user;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SizedBox(
@@ -159,12 +159,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: 10,
                     ),
                     GestureDetector(
-                      onTap: ()  {Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const UploadImage(),
-                        ),
-                      ),}
+                      onTap: () async {
+                        await user!.signIn(emailAddress.text, password.text);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const UploadImage(),
+                          ),
+                        );
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         padding: const EdgeInsets.symmetric(vertical: 15),
@@ -198,9 +201,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     InkWell(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginScreen(),),);
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
+                          ),
+                        );
                       },
                       child: Container(
                         margin: const EdgeInsets.symmetric(vertical: 20),

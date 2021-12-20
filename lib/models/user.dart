@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'dart:io' as Io;
+import 'global.dart';
 
 class User {
   final String id;
@@ -22,33 +25,58 @@ class User {
         lastName = json['LastName'],
         emailAddress = json['EmailAddress'],
         createdDate = json['CreatedDate'];
-}
 
-String? token = "";
-Future<void> registerUser(
-  String firstName,
-  String lastName,
-  String emailAddress,
-  String password,
-) async {
-  var url = Uri.parse('https://localhost:44333/api/Account/Register');
-  try {
-    final body = jsonEncode(
-      {
-        "Email": emailAddress,
-        "Password": password,
-        "ConfirmPassword": password,
-      },
-    );
-    final response = await http.post(
-      url,
-      body: body,
-    );
-    if (response.statusCode == 200) {
-      var url = Uri.parse('https://localhost:44333/token');
+  // String? Global.token = "";
+  Future<void> registerUser(
+    String firstName,
+    String lastName,
+    String emailAddress,
+    String password,
+  ) async {
+    var url = Uri.parse('https://localhost:44333/api/Account/Register');
+    try {
       final body = jsonEncode(
         {
-          "username": emailAddress,
+          "Email": emailAddress,
+          "Password": password,
+          "ConfirmPassword": password,
+        },
+      );
+      final response = await http.post(
+        url,
+        body: body,
+      );
+      if (response.statusCode == 200) {
+        var url = Uri.parse('https://localhost:44333/Global.token');
+        final body = jsonEncode(
+          {
+            "username": emailAddress,
+            "Password": password,
+          },
+        );
+        final response = await http.post(
+          url,
+          body: body,
+        );
+        if (response.statusCode == 200) {
+          final jsonResponse = jsonDecode(response.body);
+          Global.token = jsonResponse["access_token"];
+        }
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> signIn(
+    String email,
+    String password,
+  ) async {
+    try {
+      var url = Uri.parse('https://localhost:44333/Global.token');
+      final body = jsonEncode(
+        {
+          "username": email,
           "Password": password,
         },
       );
@@ -58,100 +86,84 @@ Future<void> registerUser(
       );
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);
-        token = jsonResponse["access_token"];
+        Global.token = jsonResponse["access_token"];
       }
+    } catch (e) {
+      rethrow;
     }
-  } catch (e) {
-    rethrow;
   }
-}
 
-Future<void> signIn(
-  String email,
-  String password,
-) async {
-  try {
-    var url = Uri.parse('https://localhost:44333/token');
-    final body = jsonEncode(
-      {
-        "username": email,
-        "Password": password,
-      },
-    );
-    final response = await http.post(
-      url,
-      body: body,
-    );
-    if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body);
-      token = jsonResponse["access_token"];
-    }
-  } catch (e) {
-    rethrow;
-  }
-}
-
-Future<void> setUser() async {
-  try {
-    var url = Uri.parse('https://localhost:44333/api/User');
-    final body = jsonEncode(
-      {
-        "access_token": token,
-      },
-    );
-    final response = await http.post(
-      url,
-      body: body,
-    );
-    if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body);
-      User.fromJson(
-        jsonResponse,
+  Future<void> setUser() async {
+    try {
+      var url = Uri.parse('https://localhost:44333/api/User');
+      final body = jsonEncode(
+        {
+          "access_token": Global.token,
+        },
       );
+      final response = await http.post(
+        url,
+        body: body,
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        User.fromJson(
+          jsonResponse,
+        );
+      }
+    } catch (e) {
+      rethrow;
     }
-  } catch (e) {
-    rethrow;
   }
-}
 
-Future<void> signOut(
-  User user,
-) async {
-  try {
+  Future<void> signOut(
+    User user,
+  ) async {
+    try {
+      var url = Uri.parse('https://localhost:44333/Account/Logout');
+      final body = jsonEncode(
+        {
+          "access_token": Global.token,
+        },
+      );
+      final response = await http.post(
+        url,
+        body: body,
+      );
+      if (response.statusCode == 200) {
+        Global.token = "";
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> uploadImages(
+    List<XFile> images,
+  ) async {
     var url = Uri.parse('https://localhost:44333/Account/Logout');
-    final body = jsonEncode(
-      {
-        "access_token": token,
-      },
-    );
-    final response = await http.post(
-      url,
-      body: body,
-    );
-    if (response.statusCode == 200) {
-      token = null;
+    try {
+      File file = File(images[0].path);
+
+      final bytes = await Io.File(
+        file.toString(),
+      ).readAsBytes();
+
+      final body = jsonEncode(
+        {
+          "access_token": Global.token,
+          "image": bytes,
+        },
+      );
+      final response = await http.post(
+        url,
+        body: body,
+      );
+      if (response.statusCode == 200) {
+        Global.token = "";
+      }
+    } catch (e) {
+      rethrow;
     }
-  } catch (e) {
-    rethrow;
   }
 }
-
-// Future<void> uploadImages(
-//   String id,
-//   File image,
-// ) async {
-//   try {
-//     final response = await http.get(url, headers: {
-//       "app-id": "61b8b0f3309ad65ae828da3e",
-//     });
-//     final jsonResponse = jsonDecode(response.body);
-//     // final postList = Post.fromJson(jsonResponse['data']) as List;
-//     final postList = (jsonResponse["data"] as List)
-//         .map(
-//           (e) => User.fromJson(e),
-//         )
-//         .toList();
-//   } catch (e) {
-//     rethrow;
-//   }
-// }

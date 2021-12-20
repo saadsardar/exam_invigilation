@@ -7,6 +7,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:exam_invigilation/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -105,6 +106,7 @@ class _MyHomePageState extends State<UploadImage> {
 
   @override
   Widget build(BuildContext context) {
+    User? user;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -112,7 +114,9 @@ class _MyHomePageState extends State<UploadImage> {
         ),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () async {
+              await user!.uploadImages(_imageFileList!);
+            },
             child: const Text(
               "Upload",
               style: TextStyle(
